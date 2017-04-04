@@ -1,0 +1,30 @@
+- name: Put a config file in place
+  template:
+    dest: /tmp/awslogs.conf
+    group: root
+    mode: 0600
+    owner: root
+    src: awslogs.conf.j2
+- name: update the packages
+  apt: update_cache=yes
+- name: Download the installer
+  get_url:
+    dest: /tmp/awslogs-agent-setup.py
+    group: root
+    owner: root
+    mode: 0600
+    url: https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
+- name: Get the instance region
+  shell: "ec2metadata --availability-zone | rev | cut -c 2- | rev"
+  register: region
+- name: Install the CloudWatch Logs agent
+  shell: "REGION=`ec2metadata --availability-zone | rev | cut -c 2- | rev`;python /tmp/awslogs-agent-setup.py -n -r $REGION -c /tmp/awslogs.conf"
+  ignore_errors: yes
+- name: Update the installer permissions
+  shell: "chmod +x /var/awslogs/bin/aws"
+- name: Update the installer permissions
+  shell: "chmod +x /tmp/awslogs-agent-setup.py"
+- name: Install the CloudWatch Logs agent
+  shell: "REGION=`ec2metadata --availability-zone | rev | cut -c 2- | rev`;python /tmp/awslogs-agent-setup.py -n -r $REGION -c /tmp/awslogs.conf"
+- name: Start the service
+  shell: "service awslogs restart"
