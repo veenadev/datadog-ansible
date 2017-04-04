@@ -1,0 +1,17 @@
+init_config:
+
+instances:
+- name: ssh
+  search_string: ['ssh', 'sshd']
+- name: Java
+  search_string: ['java']
+- name: redis
+  search_string: ['redis']
+- name: nginx
+  search_string: ['nginx']
+- name: mysql
+  search_string: ['mysql']
+- name: cloudwatchlogs
+  search_string: ['awslogs']
+- name: mongo
+  search_string: ['mongo']  

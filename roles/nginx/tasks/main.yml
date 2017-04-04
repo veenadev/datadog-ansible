@@ -1,0 +1,19 @@
+---
+- name: Enable stub_status_module by copying the nginx conf file
+  template:
+    dest: /etc/nginx/sites-available/default
+    group: root
+    mode: 0644
+    owner: root
+    src: nginx.conf.j2
+- name: Copy the Nginx Plugin YAML Configuration
+  template:
+    dest: /etc/dd-agent/conf.d/nginx.yaml
+    group: dd-agent
+    mode: 0644
+    owner: root
+    src: nginx.yaml.j2
+- name: Reload the Nginx Service
+  service: name=nginx state=reloaded
+- name: Restart the data dog agent service
+  service: name=datadog-agent state=restarted

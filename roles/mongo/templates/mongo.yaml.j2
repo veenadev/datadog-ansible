@@ -1,0 +1,6 @@
+init_config:
+
+instances:
+      -   server: mongodb://datadog:{{ MONGO_USER_PASSWORD  }}@localhost:28017
+          tags:
+              - mongo

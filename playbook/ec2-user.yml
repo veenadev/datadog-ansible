@@ -1,0 +1,7 @@
+---
+- name: Install Stackdriver agents in Bitnami instances
+  hosts: ec2-user.yml
+  user: ec2-user
+  become: true
+  roles:
+       - { role: dd-agent}

@@ -1,0 +1,10 @@
+---
+- name: Copy the mongo.yaml file
+  template:
+    dest: /etc/dd-agent/conf.d/mongo.yaml
+    group: dd-agent
+    mode: 0644
+    owner: root
+    src: mongo.yaml.j2
+- name: Restart the dd_agent
+  service: name=datadog-agent state=restarted
